@@ -17,9 +17,18 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const gmailAuth_1 = require("./gmailAuth");
 const outlookAuth_1 = require("./outlookAuth");
 const queue_1 = require("./queue");
+// Load environment variables
 dotenv_1.default.config();
+// Log environment variables for verification
+console.log('OUTLOOK_CLIENT_ID:', process.env.OUTLOOK_CLIENT_ID);
+console.log('OUTLOOK_CLIENT_SECRET:', process.env.OUTLOOK_CLIENT_SECRET);
+console.log('OUTLOOK_REDIRECT_URI:', process.env.OUTLOOK_REDIRECT_URI);
+console.log('REDIS_HOST:', process.env.REDIS_HOST);
+console.log('REDIS_PORT:', process.env.REDIS_PORT);
+// Initialize Express app
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+// Define routes
 app.get('/google/auth', (req, res) => {
     const authUrl = (0, gmailAuth_1.getAuthUrl)();
     if (typeof authUrl === 'string') {
@@ -61,7 +70,7 @@ app.get('/outlook/callback', (req, res) => __awaiter(void 0, void 0, void 0, fun
         const emails = yield (0, outlookAuth_1.listEmails)(accessToken);
         emails.forEach(email => {
             if (email.bodyPreview) {
-                (0, queue_1.addEmailToQueue)(email.bodyPreview, 'recipient@example.com', 'outlook');
+                (0, queue_1.addEmailToQueue)(email.bodyPreview, 'recipient@example.com', 'outlook', code);
             }
         });
         res.send('Emails processed for Outlook.');
@@ -70,6 +79,7 @@ app.get('/outlook/callback', (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(500).send('Error processing Outlook emails.');
     }
 }));
+// Start the server
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });

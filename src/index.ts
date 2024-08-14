@@ -3,12 +3,22 @@ import dotenv from 'dotenv';
 import { getAuthUrl as getGmailAuthUrl, getTokens as getGmailTokens, listEmails as listGmailEmails } from './gmailAuth';
 import { getAuthUrl as getOutlookAuthUrl, getTokens as getOutlookTokens, listEmails as listOutlookEmails } from './outlookAuth';
 import { addEmailToQueue } from './queue';
-import redisClient from './redisClient';
+
+// Load environment variables
 dotenv.config();
 
+// Log environment variables for verification
+console.log('OUTLOOK_CLIENT_ID:', process.env.OUTLOOK_CLIENT_ID);
+console.log('OUTLOOK_CLIENT_SECRET:', process.env.OUTLOOK_CLIENT_SECRET);
+console.log('OUTLOOK_REDIRECT_URI:', process.env.OUTLOOK_REDIRECT_URI);
+console.log('REDIS_HOST:', process.env.REDIS_HOST);
+console.log('REDIS_PORT:', process.env.REDIS_PORT);
+
+// Initialize Express app
 const app = express();
 app.use(express.json());
 
+// Define routes
 app.get('/google/auth', (req: Request, res: Response) => {
     const authUrl = getGmailAuthUrl();
     if (typeof authUrl === 'string') {
@@ -50,7 +60,7 @@ app.get('/outlook/callback', async (req: Request, res: Response) => {
         const emails = await listOutlookEmails(accessToken!);
         emails.forEach(email => {
             if (email.bodyPreview) {
-                addEmailToQueue(email.bodyPreview, 'recipient@example.com', 'outlook');
+                addEmailToQueue(email.bodyPreview, 'recipient@example.com', 'outlook', code);
             }
         });
         res.send('Emails processed for Outlook.');
@@ -59,6 +69,7 @@ app.get('/outlook/callback', async (req: Request, res: Response) => {
     }
 });
 
+// Start the server
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });

@@ -17,7 +17,6 @@ const googleapis_1 = require("googleapis");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const oAuth2Client = new googleapis_1.google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI);
-// Get the authentication URL
 const getAuthUrl = () => {
     return oAuth2Client.generateAuthUrl({
         access_type: 'offline',
@@ -25,21 +24,18 @@ const getAuthUrl = () => {
     });
 };
 exports.getAuthUrl = getAuthUrl;
-// Get tokens after user grants permission
 const getTokens = (code) => __awaiter(void 0, void 0, void 0, function* () {
     const { tokens } = yield oAuth2Client.getToken(code);
     oAuth2Client.setCredentials(tokens);
     return tokens;
 });
 exports.getTokens = getTokens;
-// List emails (simplified example)
 const listEmails = () => __awaiter(void 0, void 0, void 0, function* () {
     const gmail = googleapis_1.google.gmail({ version: 'v1', auth: oAuth2Client });
     const res = yield gmail.users.messages.list({ userId: 'me', q: 'is:unread' });
     return res.data.messages || [];
 });
 exports.listEmails = listEmails;
-// Send an email
 const sendEmail = (to, subject, message) => __awaiter(void 0, void 0, void 0, function* () {
     const gmail = googleapis_1.google.gmail({ version: 'v1', auth: oAuth2Client });
     const email = [

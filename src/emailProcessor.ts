@@ -1,9 +1,9 @@
 import openai from 'openai';
 import dotenv from 'dotenv';
 import redisClient from './redisClient';
+
 dotenv.config();
 
-// Initialize OpenAI client with the API key
 const openaiClient = new openai.OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
@@ -19,7 +19,7 @@ export const analyzeEmailContent = async (emailText: string): Promise<string> =>
         ],
     });
 
-    return response.choices[0]?.message?.content || ''; // Adjusted to handle response correctly
+    return response.choices[0]?.message?.content || '';
 };
 
 export const generateResponse = async (category: string): Promise<string> => {
@@ -45,5 +45,5 @@ export const generateResponse = async (category: string): Promise<string> => {
         messages: [{ role: 'user', content: prompt }],
     });
 
-    return response.choices[0]?.message?.content || ''; // Adjusted to handle response correctly
+    return response.choices[0]?.message?.content || '';
 };

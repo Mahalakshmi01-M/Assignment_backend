@@ -16,7 +16,6 @@ exports.generateResponse = exports.analyzeEmailContent = void 0;
 const openai_1 = __importDefault(require("openai"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-// Initialize OpenAI client with the API key
 const openaiClient = new openai_1.default.OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
@@ -31,7 +30,7 @@ const analyzeEmailContent = (emailText) => __awaiter(void 0, void 0, void 0, fun
             },
         ],
     });
-    return ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || ''; // Adjusted to handle response correctly
+    return ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || '';
 });
 exports.analyzeEmailContent = analyzeEmailContent;
 const generateResponse = (category) => __awaiter(void 0, void 0, void 0, function* () {
@@ -55,6 +54,6 @@ const generateResponse = (category) => __awaiter(void 0, void 0, void 0, functio
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: prompt }],
     });
-    return ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || ''; // Adjusted to handle response correctly
+    return ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || '';
 });
 exports.generateResponse = generateResponse;

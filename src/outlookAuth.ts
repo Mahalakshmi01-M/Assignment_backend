@@ -9,6 +9,10 @@ console.log('OUTLOOK_CLIENT_ID:', process.env.OUTLOOK_CLIENT_ID);
 console.log('OUTLOOK_CLIENT_SECRET:', process.env.OUTLOOK_CLIENT_SECRET);
 console.log('OUTLOOK_REDIRECT_URI:', process.env.OUTLOOK_REDIRECT_URI);
 
+if (!process.env.OUTLOOK_CLIENT_ID || !process.env.OUTLOOK_CLIENT_SECRET || !process.env.OUTLOOK_REDIRECT_URI) {
+    throw new Error('OUTLOOK_CLIENT_ID, OUTLOOK_CLIENT_SECRET or OUTLOOK_REDIRECT_URI is not defined');
+}
+
 const config = {
     auth: {
         clientId: process.env.OUTLOOK_CLIENT_ID as string,

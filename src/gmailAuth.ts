@@ -1,4 +1,3 @@
-import redisClient from './redisClient';
 import { google } from 'googleapis';
 import dotenv from 'dotenv';
 
@@ -10,7 +9,6 @@ const oAuth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_REDIRECT_URI
 );
 
-// Get the authentication URL
 export const getAuthUrl = () => {
     return oAuth2Client.generateAuthUrl({
         access_type: 'offline',
@@ -18,21 +16,18 @@ export const getAuthUrl = () => {
     });
 };
 
-// Get tokens after user grants permission
 export const getTokens = async (code: string) => {
     const { tokens } = await oAuth2Client.getToken(code);
     oAuth2Client.setCredentials(tokens);
     return tokens;
 };
 
-// List emails (simplified example)
 export const listEmails = async () => {
     const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
     const res = await gmail.users.messages.list({ userId: 'me', q: 'is:unread' });
     return res.data.messages || [];
 };
 
-// Send an email
 export const sendEmail = async (to: string, subject: string, message: string) => {
     const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
     const email = [

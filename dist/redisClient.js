@@ -4,9 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ioredis_1 = __importDefault(require("ioredis"));
-// Create a Redis client
+// Create and configure the Redis client
 const redisClient = new ioredis_1.default({
-    host: '127.0.0.1', // Replace with your Redis server host if different
-    port: 6379, // Replace with your Redis server port if different
+    host: process.env.REDIS_HOST || 'localhost',
+    port: Number(process.env.REDIS_PORT) || 6379,
+    // You can add more Redis options here if needed
+});
+// Error handling for Redis client
+redisClient.on('error', (err) => {
+    console.error('Redis error:', err);
 });
 exports.default = redisClient;
