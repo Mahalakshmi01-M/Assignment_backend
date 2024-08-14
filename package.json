@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "@azure/msal-node": "^2.12.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.2.0",
+    "bullmq": "^5.12.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "googleapis": "^140.0.1",
+    "ioredis": "^5.4.1",
+    "node-fetch": "^2.7.0",
+    "openai": "^4.55.5",
+    "redis": "^4.7.0",
+    "typescript": "^5.5.4"
+  },
+  "name": "assignment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.11"
+  }
+}
